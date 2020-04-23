@@ -34,6 +34,8 @@ public class Main extends Application {
         Statement statement = DBQuery.getStatement(); // Get statement reference
 
         launch(args);
+
+        Login.setActive(false); // Sets logged in user to inactive on application close.
         DBConnection.closeConnection();
         statement.close();
     }

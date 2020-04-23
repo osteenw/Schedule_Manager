@@ -5,26 +5,35 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AppointmentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AppointmentController">
    <children>
-      <TableView fx:id="appointmentTable" layoutX="25.0" layoutY="81.0" prefHeight="425.0" prefWidth="750.0">
+      <Button fx:id="customerButton" layoutX="14.0" layoutY="505.0" mnemonicParsing="false" onAction="#gotoCustomerAction" prefHeight="50.0" prefWidth="125.0" style="-fx-border-color: #03bafc;" text="Customers" wrapText="true" />
+      <TableView fx:id="appointmentTable" layoutX="12.0" layoutY="52.0" prefHeight="425.0" prefWidth="927.0">
          <columns>
-            <TableColumn fx:id="customerColumn" maxWidth="5000.0" minWidth="50.0" prefWidth="122.0" text="Customer" />
             <TableColumn fx:id="titleColumn" maxWidth="5000.0" minWidth="50.0" prefWidth="122.0" text="Title" />
-            <TableColumn fx:id="descriptionColumn" maxWidth="5000.0" minWidth="50.0" prefWidth="122.0" text="Description" />
-            <TableColumn fx:id="contactColumn" maxWidth="5000.0" minWidth="50.0" prefWidth="122.0" text="Customer Phone" />
-            <TableColumn fx:id="startColumn" maxWidth="5000.0" minWidth="50.0" prefWidth="122.0" text="Starts" />
-            <TableColumn fx:id="endColumn" maxWidth="5000.0" minWidth="50.0" prefWidth="122.0" text="Ends" />
+            <TableColumn fx:id="customerColumn" maxWidth="5000.0" minWidth="50.0" prefWidth="122.0" text="Customer" />
+            <TableColumn fx:id="typeColumn" maxWidth="5000.0" minWidth="50.0" prefWidth="122.0" text="Type" />
+            <TableColumn fx:id="descriptionColumn" maxWidth="5000.0" minWidth="50.0" prefWidth="140.0" text="Description" />
+            <TableColumn fx:id="contactColumn" maxWidth="5000.0" minWidth="50.0" prefWidth="122.0" text="Contact" />
+            <TableColumn fx:id="startColumn" maxWidth="5000.0" minWidth="50.0" prefWidth="140.0" text="Start" />
+            <TableColumn fx:id="endColumn" maxWidth="5000.0" minWidth="50.0" prefWidth="140.0" text="End" />
          </columns>
       </TableView>
-      <Label alignment="CENTER" layoutX="24.0" layoutY="24.0" style="&#10;" text="Appointments" textAlignment="CENTER" wrapText="false">
+      <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" style="&#10;" text="Appointments" textAlignment="CENTER" wrapText="false">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="logOutButton" layoutX="718.0" layoutY="24.0" mnemonicParsing="false" onAction="#logOutAction" prefHeight="25.0" prefWidth="60.0" text="Log Off" />
+      <Button fx:id="logOutButton" layoutX="876.0" layoutY="15.0" mnemonicParsing="false" onAction="#logOutAction" prefHeight="25.0" prefWidth="60.0" text="Log Off" />
+      <HBox alignment="CENTER_RIGHT" layoutX="481.0" layoutY="495.0" prefHeight="71.0" prefWidth="458.0" spacing="25.0">
+         <children>
+            <Button fx:id="addAppointmentButton" mnemonicParsing="false" onAction="#addAptAction" prefHeight="50.0" prefWidth="125.0" text="Add Appointment" wrapText="true" />
+            <Button fx:id="editAptButton" mnemonicParsing="false" onAction="#editAptAction" prefHeight="50.0" prefWidth="125.0" text="Edit Appointment" wrapText="true" />
+            <Button fx:id="delAptButton" mnemonicParsing="false" onAction="#delAptAction" prefHeight="50.0" prefWidth="125.0" text="Delete Appointment" wrapText="true" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

@@ -1,58 +1,110 @@
 package View_Controller;
 
+import Model.Appointment;
 import Model.Login;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class AppointmentController {
+public class AppointmentController implements Initializable {
+    ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
 
+    @FXML    private TableView<Appointment> appointmentTable;
+    @FXML    private TableColumn<Appointment, String> titleColumn;
+    @FXML    private TableColumn<Appointment, String> customerColumn;
+    @FXML    private TableColumn<Appointment, String> typeColumn;
+    @FXML    private TableColumn<Appointment, String> descriptionColumn;
+    @FXML    private TableColumn<Appointment, String> contactColumn;
+    @FXML    private TableColumn<Appointment, String> startColumn;
+    @FXML    private TableColumn<Appointment, String> endColumn;
+
+
+    @FXML    private Button customerButton;
+    @FXML    private Button logOutButton;
+    @FXML    private Button addAppointmentButton;
+    @FXML    private Button editAptButton;
+    @FXML    private Button delAptButton;
+
+    // Initializes appointment table
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // Returns all appointments matching the logged in user ID.
+        appointmentList = Appointment.returnAllAppointments();
+
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        customerColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        contactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        startColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
+        endColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
+
+        appointmentTable.setItems(appointmentList);
+
+    }
+
+    // Opens popup window to add appointment
     @FXML
-    private TableView<?> appointmentTable;
+    void addAptAction(ActionEvent event) {
 
-    @FXML
-    private TableColumn<?, ?> customerColumn;
+    }
 
+    // Opens popup window to del appointment
     @FXML
-    private TableColumn<?, ?> titleColumn;
+    void delAptAction(ActionEvent event) {
 
-    @FXML
-    private TableColumn<?, ?> descriptionColumn;
+    }
 
+    // Opens popup window to edit appointment
     @FXML
-    private TableColumn<?, ?> contactColumn;
+    void editAptAction(ActionEvent event) {
 
-    @FXML
-    private TableColumn<?, ?> startColumn;
+    }
 
+    // Opens customer window
     @FXML
-    private TableColumn<?, ?> endColumn;
+    void gotoCustomerAction(ActionEvent event) {
+        // Opens customer window.
+        Node source = (Node) event.getSource();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerScreen.fxml"));
+        Parent root1 = null;
+        try {
+            root1 = (Parent) fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(new Scene(root1));
+        stage.show();
 
-    @FXML
-    private Button logOutButton;
+        // Closes current window
+        stage = (Stage) source.getScene().getWindow();
+        stage.close();
+        return;
+    }
+
 
     // Closes appointment window, and reopens the login screen.
     @FXML
     void logOutAction(ActionEvent event) {
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-
-        alert.initModality(Modality.NONE);
-        alert.setTitle("Log Off");
-        alert.setHeaderText("Confirm log out.");
-        alert.setContentText("Are you sure you want to log off?\r");
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.get() == ButtonType.OK) {
+        if(Login.userLogout()){
+            // Opens login window.
             Node source = (Node) event.getSource();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LoginScreen.fxml"));
             Parent root1 = null;
@@ -66,7 +118,7 @@ public class AppointmentController {
             stage.setScene(new Scene(root1));
             stage.show();
 
-            // Closes window
+            // Closes current window
             stage = (Stage) source.getScene().getWindow();
             stage.close();
             return;
