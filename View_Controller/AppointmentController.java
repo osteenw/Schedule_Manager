@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AppointmentController implements Initializable {
-    ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
+    ObservableList<Appointment> appointmentList = Appointment.returnAllAppointments();
 
     @FXML    private TableView<Appointment> appointmentTable;
     @FXML    private TableColumn<Appointment, String> titleColumn;
@@ -44,8 +44,6 @@ public class AppointmentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Returns all appointments matching the logged in user ID.
-        appointmentList = Appointment.returnAllAppointments();
-
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         customerColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
@@ -54,8 +52,14 @@ public class AppointmentController implements Initializable {
         startColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
         endColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
 
-        appointmentTable.setItems(appointmentList);
+        refreshTable();
 
+    }
+
+    // Refreshes appointment table
+    void refreshTable() {
+        appointmentList = Appointment.returnAllAppointments();
+        appointmentTable.setItems(appointmentList);
     }
 
     // Opens popup window to add appointment
@@ -67,7 +71,34 @@ public class AppointmentController implements Initializable {
     // Opens popup window to del appointment
     @FXML
     void delAptAction(ActionEvent event) {
+        if (appointmentTable.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initModality(Modality.NONE);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("No appointment selected");
+            alert.showAndWait();
+            return;
+        }
 
+        // Gets selected appointment
+        Appointment appointmentToDel = appointmentTable.getSelectionModel().getSelectedItem();
+
+        // Confirms user wants to delete the appointment.
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+        alert.initModality(Modality.NONE);
+        alert.setTitle("Delete Appointment");
+        alert.setHeaderText("Confirm deletion.");
+        alert.setContentText("Are you sure you want to delete the appointment with \r" + appointmentToDel.getCustomerName() + "?\r" );
+        Optional<ButtonType> result = alert.showAndWait();
+
+        // If user confirms, appointment will be deleted, and the table refreshed.
+        if (result.get() == ButtonType.OK) {
+            Appointment.deleteAppointment(appointmentToDel.getAppointmentId());
+            refreshTable();
+        }
+        return;
     }
 
     // Opens popup window to edit appointment

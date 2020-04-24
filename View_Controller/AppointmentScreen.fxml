@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AppointmentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AppointmentController">
    <children>
       <Button fx:id="customerButton" layoutX="14.0" layoutY="505.0" mnemonicParsing="false" onAction="#gotoCustomerAction" prefHeight="50.0" prefWidth="125.0" style="-fx-border-color: #03bafc;" text="Customers" wrapText="true" />
       <TableView fx:id="appointmentTable" layoutX="12.0" layoutY="52.0" prefHeight="425.0" prefWidth="927.0">

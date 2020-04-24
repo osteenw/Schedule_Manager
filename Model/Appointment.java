@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Appointment {
-    String appointmentId;
+    int appointmentId;
     String title;
     String customerName;
     String type;
@@ -18,7 +18,7 @@ public class Appointment {
     String start;
     String end;
 
-    public Appointment(String appointmentId, String title, String customerName, String type, String description, String contact, String start, String end) {
+    public Appointment(int appointmentId, String title, String customerName, String type, String description, String contact, String start, String end) {
         this.appointmentId = appointmentId;
         this.title = title;
         this.customerName = customerName;
@@ -47,7 +47,7 @@ public class Appointment {
         try {
             ResultSet resultSet = statement.getResultSet();
             while (resultSet.next()) {
-                String dbAppointmentId = resultSet.getString("appointmentId");
+                int dbAppointmentId = resultSet.getInt("appointmentId");
                 String dbTitle = resultSet.getString("title");
                 String dbCustomerName = resultSet.getString("customerName");
                 String dbType = resultSet.getString("type");
@@ -65,6 +65,24 @@ public class Appointment {
         }
 
         return appointmentList;
+    }
+
+    public static void deleteAppointment(int appointmentId) {
+        Statement statement = DBQuery.getStatement();
+        String deleteStatement = "DELETE FROM appointment WHERE appointmentId = " + appointmentId;
+        try {
+            statement.execute(deleteStatement);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public int getAppointmentId() {
+        return appointmentId;
+    }
+
+    public void setAppointmentId(int appointmentId) {
+        this.appointmentId = appointmentId;
     }
 
     public String getTitle() {
