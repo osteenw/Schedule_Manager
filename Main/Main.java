@@ -9,12 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Scanner;
 
 public class Main extends Application {
 
@@ -38,5 +33,6 @@ public class Main extends Application {
         Login.setActive(false); // Sets logged in user to inactive on application close.
         DBConnection.closeConnection();
         statement.close();
+
     }
 }

@@ -4,9 +4,12 @@ import Utils.DBQuery;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.TimeZone;
 
 public class Appointment {
     int appointmentId;
@@ -17,8 +20,11 @@ public class Appointment {
     String contact;
     String start;
     String end;
+    ZonedDateTime startZDT;
+    ZonedDateTime endZDT;
 
-    public Appointment(int appointmentId, String title, String customerName, String type, String description, String contact, String start, String end) {
+    public Appointment(int appointmentId, String title, String customerName, String type, String description,
+                       String contact, String start, String end, ZonedDateTime startZDT, ZonedDateTime endZDT) {
         this.appointmentId = appointmentId;
         this.title = title;
         this.customerName = customerName;
@@ -27,6 +33,8 @@ public class Appointment {
         this.contact = contact;
         this.start = start;
         this.end = end;
+        this.startZDT = startZDT;
+        this.endZDT = endZDT;
     }
 
     public static ObservableList<Appointment> returnAllAppointments() {
@@ -37,6 +45,8 @@ public class Appointment {
                 "INNER JOIN customer AS c ON a.customerId = c.customerId " +
                 "WHERE userId = " + Login.getUserId();
         ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
+        ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
+
 
         try {
             statement.execute(insertStatement);
@@ -53,12 +63,26 @@ public class Appointment {
                 String dbType = resultSet.getString("type");
                 String dbDescription = resultSet.getString("description");
                 String dbContact = resultSet.getString("contact");
-                String dbStart = resultSet.getString("start");
-                String dbEnd = resultSet.getString("end");
+                LocalDate dbStartDate = resultSet.getDate("start").toLocalDate();
+                LocalTime dbStartTime = resultSet.getTime("start").toLocalTime();
+                LocalDate dbEndDate = resultSet.getDate("end").toLocalDate();
+                LocalTime dbEndTime = resultSet.getTime("end").toLocalTime();
+
+                // Creates zone date time of start time in utc and converts it to the users local time.
+                ZonedDateTime utcStartZDT = ZonedDateTime.of(dbStartDate, dbStartTime, ZoneId.of("UTC"));
+                ZonedDateTime localStartZDT = utcStartZDT.withZoneSameInstant(localZoneId);
+
+                // Creates zone date time of end time in utc and converts it to the users local time.
+                ZonedDateTime utcEndZDT = ZonedDateTime.of(dbEndDate, dbEndTime, ZoneId.of("UTC"));
+                ZonedDateTime localEndZDT = utcEndZDT.withZoneSameInstant(localZoneId);
+
+
+                String dbStart = localStartZDT.toLocalDate().toString() + " " + Time.amOrPm(localStartZDT.toLocalTime());
+                String dbEnd = localEndZDT.toLocalDate().toString() + " " + Time.amOrPm(localEndZDT.toLocalTime());
 
                 appointmentList.add(new Appointment(dbAppointmentId, dbTitle,
                         dbCustomerName, dbType, dbDescription, dbContact,
-                        dbStart, dbEnd));
+                        dbStart, dbEnd, localStartZDT, localEndZDT));
             }
         } catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
@@ -139,5 +163,21 @@ public class Appointment {
 
     public void setEnd(String end) {
         this.end = end;
+    }
+
+    public ZonedDateTime getStartZDT() {
+        return startZDT;
+    }
+
+    public void setStartZDT(ZonedDateTime startZDT) {
+        this.startZDT = startZDT;
+    }
+
+    public ZonedDateTime getEndZDT() {
+        return endZDT;
+    }
+
+    public void setEndZDT(ZonedDateTime endZDT) {
+        this.endZDT = endZDT;
     }
 }
