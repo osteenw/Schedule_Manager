@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CreateCustomerController extends CustomerController implements Initializable {
+
     public Stage stage;
     public static boolean createCustomer;
 

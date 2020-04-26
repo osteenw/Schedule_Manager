@@ -12,8 +12,12 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -31,6 +35,9 @@ public class LoginController implements Initializable {
     Locale french = new Locale("fr", "FR");
     private ResourceBundle rb;
 
+    //File Variables for log
+    String fileName = "src/Utils/LoginLog.txt";
+    File file = new File(fileName);
 
 
     // Clears error labels of any text.
@@ -99,6 +106,17 @@ public class LoginController implements Initializable {
         // Calls query to check login credentials. If there is a match the username and id will be stored
         // as a static variable, and the boolean will return true.
         boolean loginValid = Login.userLogin(username, password);
+
+        // Writes login to log file
+        FileWriter fwriter = null;
+        try {
+            fwriter = new FileWriter(fileName, true);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());;
+        }
+        PrintWriter outputFile = new PrintWriter(fwriter);
+        outputFile.println("User ID: " +Login.getUserId() + " Username: " + Login.getUsername() +" Logged in at: " + LocalDateTime.now());
+        outputFile.close();
 
         // Launches main appointment window.
         // if loginValid is true, a user match was found.

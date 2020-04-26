@@ -1,8 +1,6 @@
 package View_Controller;
 
-import Model.Appointment;
-import Model.Customer;
-import Model.Login;
+import Model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -65,7 +63,7 @@ public class CustomerController implements Initializable {
 
     @FXML
     void addCustomerAction(ActionEvent event) {
-        // Opens customer window.
+        // Opens add customer window.
         CreateCustomerController.createCustomer = true;
         Node source = (Node) event.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CreateCustomerScreen.fxml"));
@@ -111,11 +109,14 @@ public class CustomerController implements Initializable {
         // Confirms user wants to delete the appointment.
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
+        // Value returning lambda expression
+        Message message = s -> "Are you sure you want to delete customer \n" + s + "?\n \n " +
+                "This will delete all appointments with the customer also.\r";
+
         alert.initModality(Modality.NONE);
         alert.setTitle("Delete Appointment");
         alert.setHeaderText("Confirm deletion.");
-        alert.setContentText("Are you sure you want to delete customer \n" + customerToDel.getCustomerName() + "?\n \n " +
-                "This will delete all appointments with the customer also.\r" );
+        alert.setContentText(message.getMessage("customerToDel.getCustomerName()") );
         Optional<ButtonType> result = alert.showAndWait();
 
         // If user confirms, appointment will be deleted, and the table refreshed.

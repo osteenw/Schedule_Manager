@@ -4,6 +4,7 @@ import Model.Appointment;
 import Model.Login;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -65,6 +67,32 @@ public class AppointmentController implements Initializable {
     // Opens popup window to add appointment
     @FXML
     void addAptAction(ActionEvent event) {
+        // Opens create appointment window.
+        CreateCustomerController.createCustomer = true;
+        Node source = (Node) event.getSource();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CreateAppointmentScreen.fxml"));
+        Parent root1 = null;
+        try {
+            root1 = (Parent) fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(new Scene(root1));
+        stage.show();
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                refreshTable();
+            }
+        });
+        stage.setOnHiding(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                refreshTable();
+            }
+        });
 
     }
 
