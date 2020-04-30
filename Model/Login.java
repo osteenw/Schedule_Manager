@@ -16,27 +16,13 @@ import java.lang.invoke.MethodHandles;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class Login {
     private static int userId;
     private static String username;
-
-    public static int getUserId() {
-        return userId;
-    }
-
-    public static void setUserId(int userId) {
-        Login.userId = userId;
-    }
-
-    public static String getUsername() {
-        return username;
-    }
-
-    public static void setUsername(String username) {
-        Login.username = username;
-    }
+    private static LocalDateTime loginTime;
 
     public static void setActive(boolean active) {
         Statement statement = DBQuery.getStatement();
@@ -91,6 +77,7 @@ public class Login {
                         setUserId(dbUserId);
                         setUsername(dbUserName);
                         setActive(true);
+                        setLoginTime(LocalDateTime.now());
                         return true;
                     }
                 }
@@ -118,5 +105,29 @@ public class Login {
             return true;
         }
         return false;
+    }
+
+    public static int getUserId() {
+        return userId;
+    }
+
+    public static void setUserId(int userId) {
+        Login.userId = userId;
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static void setUsername(String username) {
+        Login.username = username;
+    }
+
+    public static LocalDateTime getLoginTime() {
+        return loginTime;
+    }
+
+    public static void setLoginTime(LocalDateTime loginTime) {
+        Login.loginTime = loginTime;
     }
 }

@@ -107,12 +107,7 @@ public class CreateCustomerController extends CustomerController implements Init
         if (createCustomer) {
             int countryId = Customer.lookupCountry(country); // Looks up country, and creates if it does not exist
             int cityId = Customer.lookupCity(city, countryId); // Looks up city, and creates if it does not exist
-            int addressId = Customer.lookupAddress(address); // Looks up address for address id
-            if (addressId == 0) {
-                Customer.createAddress(address, address2, postalcode, phone, cityId); // Creates address
-                addressId = Customer.lookupAddress(address);
-            }
-
+            int addressId = Customer.lookupAddress(address, address2, postalcode, phone, cityId); // Looks up address for address id
             Customer.createCustomer(customerName, addressId); // Adds customer to DB
 
             // Closes Window
@@ -160,7 +155,7 @@ public class CreateCustomerController extends CustomerController implements Init
                     statement.execute(insertStatement);
                 } else { // city is different and so is the address... need to make new address.
                     Customer.createAddress(address, address2, postalcode, phone, cityId); // Creates address
-                    addressId = Customer.lookupAddress(address);
+                    addressId = Customer.lookupAddress(address, address2, postalcode, phone, cityId);
                 }
 
             }

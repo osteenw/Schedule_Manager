@@ -23,6 +23,11 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     public Stage stage;
+
+    @FXML    private Label titleLabel;
+    @FXML    private Label usernameLabel;
+    @FXML    private Label passwordLabel;
+
     @FXML    private Hyperlink createUser;
     @FXML    private TextField usernameField;
     @FXML    private PasswordField passwordField;
@@ -48,13 +53,20 @@ public class LoginController implements Initializable {
         errorLabel2.setText("");
 
         try {
-            // Locale.setDefault(spanish); // Sets language to Spanish. Used for testing resource bundles.
+//             Locale.setDefault(spanish); // Sets language to Spanish. Used for testing resource bundles.
             rb = ResourceBundle.getBundle("Resources/Nat", Locale.getDefault());
         } catch (Exception e) {
             Locale.setDefault(english);
             rb = ResourceBundle.getBundle("Resources/Nat", Locale.getDefault());
             System.out.println(e.getMessage());
         }
+
+        usernameLabel.setText(rb.getString("Username") );
+        passwordLabel.setText(rb.getString("Password") );
+        titleLabel.setText(rb.getString("Schedule") + " " + rb.getString("Manager"));
+        createUser.setText(rb.getString("Create") + " " + rb.getString("New") + " " + rb.getString("User"));
+
+
     }
 
     // Calls window to create a new user.
@@ -127,7 +139,7 @@ public class LoginController implements Initializable {
             try {
                 root1 = (Parent) fxmlLoader.load();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);

@@ -101,7 +101,8 @@ public class Customer {
             }
             if (!resultSet.next()) {
                 createCountry(country);
-                lookupCountry(country);
+                int countryId = lookupCountry(country);
+                return countryId;
             }
         } catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
@@ -144,14 +145,14 @@ public class Customer {
 
         try {
             ResultSet resultSet = statement.getResultSet();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 int cityId = resultSet.getInt("cityId");
-
                 return cityId;
             }
             if (!resultSet.next()) {
                 createCity(city, countryId);
-                lookupCity(city, countryId);
+                int cityId = lookupCity(city, countryId);
+                return cityId;
             }
         } catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
@@ -184,7 +185,7 @@ public class Customer {
     }
 
     // Checks DB to see if an address exists.
-    public static int lookupAddress(String address) {
+    public static int lookupAddress(String address, String address2, String postalcode, String phone, int cityId) {
         Statement statement = DBQuery.getStatement();
         String insertStatement = "SELECT * FROM address WHERE address = '" + address + "'";
         try {
@@ -195,16 +196,19 @@ public class Customer {
 
         try {
             ResultSet resultSet = statement.getResultSet();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 int addressId = resultSet.getInt("addressId");
                 return addressId;
             }
             if (!resultSet.next()) {
-                return 0;
+                createAddress(address, address2, postalcode, phone, cityId); // Creates address
+                int addressId = lookupAddress(address, address2, postalcode, phone, cityId);
+                return addressId;
             }
         } catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
         }
+        System.out.println("Address error.");
 
         return 0;
 

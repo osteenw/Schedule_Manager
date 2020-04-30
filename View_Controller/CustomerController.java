@@ -61,6 +61,8 @@ public class CustomerController implements Initializable {
         customerTable.setItems(customerList);
     }
 
+    // Opens add customer pop up window
+    // Uses lambda expression to refresh table on hide or close.
     @FXML
     void addCustomerAction(ActionEvent event) {
         // Opens add customer window.
@@ -77,18 +79,8 @@ public class CustomerController implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(new Scene(root1));
         stage.show();
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                refreshTable();
-            }
-        });
-        stage.setOnHiding(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                refreshTable();
-            }
-        });
+        stage.setOnCloseRequest(event1 -> refreshTable());
+        stage.setOnHiding(event1 -> refreshTable());
     }
 
     @FXML
@@ -106,7 +98,7 @@ public class CustomerController implements Initializable {
         // Gets selected appointment
         Customer customerToDel = customerTable.getSelectionModel().getSelectedItem();
 
-        // Confirms user wants to delete the appointment.
+        // Confirms user wants to delete the customer.
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
         // Value returning lambda expression
@@ -127,6 +119,8 @@ public class CustomerController implements Initializable {
         return;
     }
 
+    // Opens edit customer popup window
+    // Uses lambda to refresh table on hide or close
     @FXML
     void editCustomerAction(ActionEvent event) {
         if (customerTable.getSelectionModel().getSelectedItem() == null) {
@@ -156,18 +150,8 @@ public class CustomerController implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(new Scene(root1));
         stage.show();
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                refreshTable();
-            }
-        });
-        stage.setOnHiding(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                refreshTable();
-            }
-        });
+        stage.setOnCloseRequest(event1 -> refreshTable());
+        stage.setOnHiding(event1 -> refreshTable());
     }
 
     @FXML
