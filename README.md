@@ -1,4 +1,4 @@
-# Schedule anager
+# Schedule Manager
 Schedule Manager Application
 
 WGU Software 2 Performance Assessment.
