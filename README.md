@@ -5,8 +5,9 @@ WGU Software 2 Performance Assessment.
 This application is a scheduling application using a MySQL database. 
 
 Default login credentials are:
-Username: test
-Password: test
+
+- Username: test
+- Password: test
 
 ### Project Features
 - Login handling.
