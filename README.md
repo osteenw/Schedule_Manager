@@ -24,3 +24,9 @@ Default login credentials are:
 - Managing Timestamps and converting them to various timezones. The database is based on UTC time. So all time data pulled out of the database is converted to the users time zone. When adding data to the database it is converted from the user time zone to UTC.
 - Lambdas were required to be implemented to show an understanding of their function. I used an abstract expression from the Model/Message.Java for an alert in the AppointmentController, and CustomerController. As well as implementing lambdas to handle stage.OnCloseRequest and stage.setOnHiding.
 - Exception control, and error handling.
+
+## Screenshot
+
+![Appointment Screen](screenshot1.png)
+![Creating an Appointment](screenshot2.png)
+![Modifying a Customer](screenshot3.png)
