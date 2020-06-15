@@ -25,7 +25,7 @@ Default login credentials are:
 - Lambdas were required to be implemented to show an understanding of their function. I used an abstract expression from the Model/Message.Java for an alert in the AppointmentController, and CustomerController. As well as implementing lambdas to handle stage.OnCloseRequest and stage.setOnHiding.
 - Exception control, and error handling.
 
-## Screenshot
+## Screenshots
 
 ![Appointment Screen](screenshot1.png)
 ![Creating an Appointment](screenshot2.png)
